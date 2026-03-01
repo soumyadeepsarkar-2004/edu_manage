@@ -1,153 +1,153 @@
 {
-  "nav": {
-    "dashboard": "Panel",
-    "courses": "Cursos",
-    "myCourses": "Mis Cursos",
-    "assignments": "Tareas",
-    "grades": "Calificaciones",
-    "attendance": "Asistencia",
-    "messages": "Mensajes",
-    "profile": "Perfil",
-    "createCourse": "Crear Curso",
-    "uploadDocuments": "Subir Documentos",
-    "userManagement": "Gestión de Usuarios",
-    "instructorVerification": "Verificación de Instructores"
-  },
-  "auth": {
-    "login": "Iniciar Sesión",
-    "logout": "Cerrar Sesión",
-    "register": "Crear Cuenta",
-    "email": "Correo Electrónico",
-    "password": "Contraseña",
-    "firstName": "Nombre",
-    "lastName": "Apellido",
-    "role": "Rol",
-    "student": "Estudiante",
-    "instructor": "Instructor",
-    "forgotPassword": "¿Olvidaste tu contraseña?",
-    "noAccount": "¿No tienes una cuenta?",
-    "alreadyAccount": "¿Ya tienes una cuenta?",
-    "signIn": "Iniciar sesión",
-    "signUp": "Registrarse",
-    "twoFactor": {
-      "title": "Autenticación de Dos Factores",
-      "subtitle": "Ingresa el código de 6 dígitos de tu aplicación autenticadora",
-      "code": "Código de Autenticación",
-      "verify": "Verificar",
-      "setup": "Configurar 2FA",
-      "disable": "Desactivar 2FA",
-      "enabled": "2FA Activado",
-      "disabled": "2FA Desactivado",
-      "scanQR": "Escanea este código QR con tu aplicación autenticadora",
-      "enterCode": "Ingresa el código de verificación mostrado en tu aplicación",
-      "backupAdvice": "Guarda tus códigos de respaldo en un lugar seguro"
+    "nav": {
+        "dashboard": "Panel",
+        "courses": "Cursos",
+        "myCourses": "Mis Cursos",
+        "assignments": "Tareas",
+        "grades": "Calificaciones",
+        "attendance": "Asistencia",
+        "messages": "Mensajes",
+        "profile": "Perfil",
+        "createCourse": "Crear Curso",
+        "uploadDocuments": "Subir Documentos",
+        "userManagement": "Gestión de Usuarios",
+        "instructorVerification": "Verificación de Instructores"
+    },
+    "auth": {
+        "login": "Iniciar Sesión",
+        "logout": "Cerrar Sesión",
+        "register": "Crear Cuenta",
+        "email": "Correo Electrónico",
+        "password": "Contraseña",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "role": "Rol",
+        "student": "Estudiante",
+        "instructor": "Instructor",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "noAccount": "¿No tienes una cuenta?",
+        "alreadyAccount": "¿Ya tienes una cuenta?",
+        "signIn": "Iniciar sesión",
+        "signUp": "Registrarse",
+        "twoFactor": {
+            "title": "Autenticación de Dos Factores",
+            "subtitle": "Ingresa el código de 6 dígitos de tu aplicación autenticadora",
+            "code": "Código de Autenticación",
+            "verify": "Verificar",
+            "setup": "Configurar 2FA",
+            "disable": "Desactivar 2FA",
+            "enabled": "2FA Activado",
+            "disabled": "2FA Desactivado",
+            "scanQR": "Escanea este código QR con tu aplicación autenticadora",
+            "enterCode": "Ingresa el código de verificación mostrado en tu aplicación",
+            "backupAdvice": "Guarda tus códigos de respaldo en un lugar seguro"
+        }
+    },
+    "courses": {
+        "title": "Cursos",
+        "create": "Crear Curso",
+        "enroll": "Inscribirse",
+        "enrolled": "Inscrito",
+        "unenroll": "Cancelar Inscripción",
+        "viewDetails": "Ver Detalles",
+        "materials": "Materiales",
+        "noCoursesFound": "No se encontraron cursos",
+        "search": "Buscar cursos...",
+        "filter": "Filtrar",
+        "capacity": "Capacidad",
+        "duration": "Duración",
+        "credits": "Créditos",
+        "instructor": "Instructor",
+        "startDate": "Fecha de Inicio",
+        "endDate": "Fecha de Fin"
+    },
+    "assignments": {
+        "title": "Tareas",
+        "create": "Crear Tarea",
+        "submit": "Enviar",
+        "submitted": "Enviado",
+        "dueDate": "Fecha de Entrega",
+        "grade": "Calificación",
+        "feedback": "Retroalimentación",
+        "noAssignments": "No se encontraron tareas",
+        "submissionDeadline": "Fecha Límite de Entrega"
+    },
+    "grades": {
+        "title": "Calificaciones",
+        "course": "Curso",
+        "grade": "Nota",
+        "gpa": "Promedio",
+        "noGrades": "Aún no hay calificaciones"
+    },
+    "attendance": {
+        "title": "Asistencia",
+        "present": "Presente",
+        "absent": "Ausente",
+        "late": "Tarde",
+        "date": "Fecha",
+        "status": "Estado"
+    },
+    "messages": {
+        "title": "Mensajes",
+        "compose": "Redactar",
+        "send": "Enviar",
+        "to": "Para",
+        "subject": "Asunto",
+        "body": "Mensaje",
+        "noMessages": "Sin mensajes todavía",
+        "reply": "Responder"
+    },
+    "profile": {
+        "title": "Perfil",
+        "editProfile": "Editar Perfil",
+        "save": "Guardar Cambios",
+        "cancel": "Cancelar",
+        "changePassword": "Cambiar Contraseña",
+        "security": "Seguridad",
+        "twoFactorAuth": "Autenticación de Dos Factores"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Ocurrió un error",
+        "success": "Éxito",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "view": "Ver",
+        "back": "Atrás",
+        "next": "Siguiente",
+        "submit": "Enviar",
+        "search": "Buscar",
+        "filter": "Filtrar",
+        "all": "Todos",
+        "active": "Activo",
+        "inactive": "Inactivo",
+        "pending": "Pendiente",
+        "approved": "Aprobado",
+        "rejected": "Rechazado",
+        "required": "Requerido",
+        "optional": "Opcional",
+        "noData": "No hay datos disponibles",
+        "language": "Idioma"
+    },
+    "roles": {
+        "student": "Estudiante",
+        "instructor": "Instructor",
+        "admin": "Admin"
+    },
+    "notifications": {
+        "title": "Notificaciones",
+        "markAllRead": "Marcar todo como leído",
+        "noNotifications": "Sin notificaciones",
+        "viewAll": "Ver todo"
+    },
+    "home": {
+        "hero": {
+            "title": "Potencia Tu Camino de Aprendizaje",
+            "subtitle": "Una plataforma completa para estudiantes, instructores e instituciones.",
+            "cta": "Comenzar Gratis",
+            "ctaSecondary": "Saber Más"
+        }
     }
-  },
-  "courses": {
-    "title": "Cursos",
-    "create": "Crear Curso",
-    "enroll": "Inscribirse",
-    "enrolled": "Inscrito",
-    "unenroll": "Cancelar Inscripción",
-    "viewDetails": "Ver Detalles",
-    "materials": "Materiales",
-    "noCoursesFound": "No se encontraron cursos",
-    "search": "Buscar cursos...",
-    "filter": "Filtrar",
-    "capacity": "Capacidad",
-    "duration": "Duración",
-    "credits": "Créditos",
-    "instructor": "Instructor",
-    "startDate": "Fecha de Inicio",
-    "endDate": "Fecha de Fin"
-  },
-  "assignments": {
-    "title": "Tareas",
-    "create": "Crear Tarea",
-    "submit": "Enviar",
-    "submitted": "Enviado",
-    "dueDate": "Fecha de Entrega",
-    "grade": "Calificación",
-    "feedback": "Retroalimentación",
-    "noAssignments": "No se encontraron tareas",
-    "submissionDeadline": "Fecha Límite de Entrega"
-  },
-  "grades": {
-    "title": "Calificaciones",
-    "course": "Curso",
-    "grade": "Nota",
-    "gpa": "Promedio",
-    "noGrades": "Aún no hay calificaciones"
-  },
-  "attendance": {
-    "title": "Asistencia",
-    "present": "Presente",
-    "absent": "Ausente",
-    "late": "Tarde",
-    "date": "Fecha",
-    "status": "Estado"
-  },
-  "messages": {
-    "title": "Mensajes",
-    "compose": "Redactar",
-    "send": "Enviar",
-    "to": "Para",
-    "subject": "Asunto",
-    "body": "Mensaje",
-    "noMessages": "Sin mensajes todavía",
-    "reply": "Responder"
-  },
-  "profile": {
-    "title": "Perfil",
-    "editProfile": "Editar Perfil",
-    "save": "Guardar Cambios",
-    "cancel": "Cancelar",
-    "changePassword": "Cambiar Contraseña",
-    "security": "Seguridad",
-    "twoFactorAuth": "Autenticación de Dos Factores"
-  },
-  "common": {
-    "loading": "Cargando...",
-    "error": "Ocurrió un error",
-    "success": "Éxito",
-    "cancel": "Cancelar",
-    "save": "Guardar",
-    "delete": "Eliminar",
-    "edit": "Editar",
-    "view": "Ver",
-    "back": "Atrás",
-    "next": "Siguiente",
-    "submit": "Enviar",
-    "search": "Buscar",
-    "filter": "Filtrar",
-    "all": "Todos",
-    "active": "Activo",
-    "inactive": "Inactivo",
-    "pending": "Pendiente",
-    "approved": "Aprobado",
-    "rejected": "Rechazado",
-    "required": "Requerido",
-    "optional": "Opcional",
-    "noData": "No hay datos disponibles",
-    "language": "Idioma"
-  },
-  "roles": {
-    "student": "Estudiante",
-    "instructor": "Instructor",
-    "admin": "Admin"
-  },
-  "notifications": {
-    "title": "Notificaciones",
-    "markAllRead": "Marcar todo como leído",
-    "noNotifications": "Sin notificaciones",
-    "viewAll": "Ver todo"
-  },
-  "home": {
-    "hero": {
-      "title": "Potencia Tu Camino de Aprendizaje",
-      "subtitle": "Una plataforma completa para estudiantes, instructores e instituciones.",
-      "cta": "Comenzar Gratis",
-      "ctaSecondary": "Saber Más"
-    }
-  }
 }

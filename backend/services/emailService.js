@@ -2,25 +2,25 @@ const nodemailer = require('nodemailer');
 
 // Create reusable transporter
 const createTransporter = () => {
-  if (process.env.NODE_ENV === 'test') {
-    // Use ethereal (fake SMTP) for tests
-    return nodemailer.createTransport({ jsonTransport: true });
-  }
+    if (process.env.NODE_ENV === 'test') {
+        // Use ethereal (fake SMTP) for tests
+        return nodemailer.createTransport({ jsonTransport: true });
+    }
 
-  if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER) {
-    console.warn('[EmailService] Email env vars not set — emails will be skipped.');
-    return null;
-  }
+    if (!process.env.EMAIL_HOST || !process.env.EMAIL_USER) {
+        console.warn('[EmailService] Email env vars not set — emails will be skipped.');
+        return null;
+    }
 
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT || '587'),
-    secure: process.env.EMAIL_SECURE === 'true',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+    return nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: parseInt(process.env.EMAIL_PORT || '587'),
+        secure: process.env.EMAIL_SECURE === 'true',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+    });
 };
 
 const FROM_ADDRESS = `"EduManage" <${process.env.EMAIL_FROM || process.env.EMAIL_USER || 'noreply@edumanage.app'}>`;
@@ -29,26 +29,26 @@ const FROM_ADDRESS = `"EduManage" <${process.env.EMAIL_FROM || process.env.EMAIL
  * Send a raw email. Returns silently if transporter is not configured.
  */
 const sendMail = async (options) => {
-  const transporter = createTransporter();
-  if (!transporter) return;
-  try {
-    await transporter.sendMail({ from: FROM_ADDRESS, ...options });
-  } catch (err) {
-    console.error('[EmailService] Failed to send email:', err.message);
-  }
+    const transporter = createTransporter();
+    if (!transporter) return;
+    try {
+        await transporter.sendMail({ from: FROM_ADDRESS, ...options });
+    } catch (err) {
+        console.error('[EmailService] Failed to send email:', err.message);
+    }
 };
 
 // ─── Welcome Email ────────────────────────────────────────────────────────────
 const sendWelcomeEmail = async ({ email, firstName, role }) => {
-  const roleMessage =
-    role === 'instructor'
-      ? 'Please upload your verification documents to get your account approved and start creating courses.'
-      : 'Browse available courses and enroll to begin learning today.';
+    const roleMessage =
+        role === 'instructor'
+            ? 'Please upload your verification documents to get your account approved and start creating courses.'
+            : 'Browse available courses and enroll to begin learning today.';
 
-  await sendMail({
-    to: email,
-    subject: '🎓 Welcome to EduManage!',
-    html: `
+    await sendMail({
+        to: email,
+        subject: '🎓 Welcome to EduManage!',
+        html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px;">
         <h2 style="color:#2563eb;">Welcome to EduManage, ${firstName}!</h2>
         <p>Your <strong>${role}</strong> account has been created successfully.</p>
@@ -61,15 +61,15 @@ const sendWelcomeEmail = async ({ email, firstName, role }) => {
         <p style="font-size:12px;color:#6b7280;">EduManage · If you did not create this account, please ignore this email.</p>
       </div>
     `,
-  });
+    });
 };
 
 // ─── Enrollment Confirmation ───────────────────────────────────────────────────
 const sendEnrollmentConfirmation = async ({ email, firstName, courseTitle, instructorName }) => {
-  await sendMail({
-    to: email,
-    subject: `✅ Enrolled in "${courseTitle}"`,
-    html: `
+    await sendMail({
+        to: email,
+        subject: `✅ Enrolled in "${courseTitle}"`,
+        html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px;">
         <h2 style="color:#2563eb;">Enrollment Confirmed!</h2>
         <p>Hi ${firstName},</p>
@@ -83,15 +83,15 @@ const sendEnrollmentConfirmation = async ({ email, firstName, courseTitle, instr
         <p style="font-size:12px;color:#6b7280;">EduManage</p>
       </div>
     `,
-  });
+    });
 };
 
 // ─── Grade Notification ────────────────────────────────────────────────────────
 const sendGradeNotification = async ({ email, firstName, courseTitle, grade, feedback }) => {
-  await sendMail({
-    to: email,
-    subject: `📊 New Grade Posted — ${courseTitle}`,
-    html: `
+    await sendMail({
+        to: email,
+        subject: `📊 New Grade Posted — ${courseTitle}`,
+        html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px;">
         <h2 style="color:#2563eb;">A new grade has been posted</h2>
         <p>Hi ${firstName},</p>
@@ -111,16 +111,16 @@ const sendGradeNotification = async ({ email, firstName, courseTitle, grade, fee
         <p style="font-size:12px;color:#6b7280;">EduManage</p>
       </div>
     `,
-  });
+    });
 };
 
 // ─── Password Reset ────────────────────────────────────────────────────────────
 const sendPasswordResetEmail = async ({ email, firstName, resetToken }) => {
-  const resetUrl = `${process.env.CLIENT_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
-  await sendMail({
-    to: email,
-    subject: '🔐 Reset Your EduManage Password',
-    html: `
+    const resetUrl = `${process.env.CLIENT_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+    await sendMail({
+        to: email,
+        subject: '🔐 Reset Your EduManage Password',
+        html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px;">
         <h2 style="color:#2563eb;">Password Reset Request</h2>
         <p>Hi ${firstName},</p>
@@ -134,15 +134,15 @@ const sendPasswordResetEmail = async ({ email, firstName, resetToken }) => {
         <p style="font-size:12px;color:#6b7280;">EduManage</p>
       </div>
     `,
-  });
+    });
 };
 
 // ─── Instructor Approved ───────────────────────────────────────────────────────
 const sendInstructorApprovedEmail = async ({ email, firstName }) => {
-  await sendMail({
-    to: email,
-    subject: '🎉 Your Instructor Account Has Been Approved',
-    html: `
+    await sendMail({
+        to: email,
+        subject: '🎉 Your Instructor Account Has Been Approved',
+        html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px;">
         <h2 style="color:#16a34a;">Account Approved!</h2>
         <p>Hi ${firstName},</p>
@@ -155,13 +155,13 @@ const sendInstructorApprovedEmail = async ({ email, firstName }) => {
         <p style="font-size:12px;color:#6b7280;">EduManage</p>
       </div>
     `,
-  });
+    });
 };
 
 module.exports = {
-  sendWelcomeEmail,
-  sendEnrollmentConfirmation,
-  sendGradeNotification,
-  sendPasswordResetEmail,
-  sendInstructorApprovedEmail,
+    sendWelcomeEmail,
+    sendEnrollmentConfirmation,
+    sendGradeNotification,
+    sendPasswordResetEmail,
+    sendInstructorApprovedEmail,
 };

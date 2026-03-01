@@ -208,39 +208,32 @@ certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 ## Persistent File Storage
 
-> The current upload implementation stores files to disk (local `uploads/` in dev, `/tmp` on Vercel). Files saved to `/tmp` on Vercel are ephemeral.
+> The app already includes **Cloudflare R2** support. When the `R2_*` env vars are set, uploads go to R2 automatically. Without them the app falls back to disk (`uploads/` in dev, `/tmp` on Vercel — ephemeral).
 
-For production with file persistence, integrate one of the following:
+### Cloudflare R2 Setup (Free — Recommended)
 
-### Cloudinary (easiest)
+R2 is free forever: 10 GB storage, 1M writes/month, 10M reads/month, zero egress fees.
 
-```bash
-npm install cloudinary multer-storage-cloudinary
+**Step 1 — Create a bucket**
+1. [dash.cloudflare.com](https://dash.cloudflare.com) → **R2** → **Create bucket**
+2. Bucket → **Settings → Public access** → Enable (for public file URLs)
+
+**Step 2 — Create an API token**
+1. **R2 → Manage R2 API Tokens → Create token**
+2. Permissions: *Object Read & Write*
+3. Copy **Account ID**, **Access Key ID**, **Secret Access Key**
+
+**Step 3 — Set env vars on Vercel**
+
+```
+R2_ACCOUNT_ID        <your Cloudflare account ID>
+R2_ACCESS_KEY_ID     <R2 token Access Key ID>
+R2_SECRET_ACCESS_KEY <R2 token Secret Access Key>
+R2_BUCKET_NAME       <bucket name>
+R2_PUBLIC_URL        https://pub-xxx.r2.dev   (optional — enables public links)
 ```
 
-```js
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: { folder: 'edumanage', allowed_formats: ['jpg', 'png', 'pdf'] },
-});
-```
-
-### AWS S3
-
-```bash
-npm install @aws-sdk/client-s3 multer-s3
-```
-
-Replace the `multer.diskStorage` config in `routes/upload.js` and `middleware/upload.js` with an S3 storage engine.
+That's it. Redeploy and uploads will land in R2.
 
 ---
 

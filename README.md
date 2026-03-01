@@ -304,7 +304,7 @@ git push origin feature/my-feature
 - [x] Vercel production deployment
 - [x] Automated email notifications (nodemailer — welcome, enrollment, grades, instructor approval)
 - [x] Unit + integration test suite (Jest / Supertest + mongodb-memory-server)
-- [x] AWS S3 / Cloudinary for persistent file storage (cloudinaryService.js, multer-storage-cloudinary)
+- [x] Cloudflare R2 for persistent file storage — free forever, S3-compatible (10 GB / zero egress)
 - [x] Two-factor authentication (TOTP via speakeasy — setup, enable, verify, disable)
 - [x] Mobile-responsive improvements (responsive header, sidebar, LanguageSwitcher)
 - [x] Internationalisation (i18n) — English, Spanish, French via i18next + react-i18next

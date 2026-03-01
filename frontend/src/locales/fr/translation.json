@@ -1,153 +1,153 @@
 {
-  "nav": {
-    "dashboard": "Tableau de bord",
-    "courses": "Cours",
-    "myCourses": "Mes Cours",
-    "assignments": "Devoirs",
-    "grades": "Notes",
-    "attendance": "Présence",
-    "messages": "Messages",
-    "profile": "Profil",
-    "createCourse": "Créer un Cours",
-    "uploadDocuments": "Télécharger des Documents",
-    "userManagement": "Gestion des Utilisateurs",
-    "instructorVerification": "Vérification des Instructeurs"
-  },
-  "auth": {
-    "login": "Se Connecter",
-    "logout": "Se Déconnecter",
-    "register": "Créer un Compte",
-    "email": "Adresse Email",
-    "password": "Mot de passe",
-    "firstName": "Prénom",
-    "lastName": "Nom",
-    "role": "Rôle",
-    "student": "Étudiant",
-    "instructor": "Instructeur",
-    "forgotPassword": "Mot de passe oublié ?",
-    "noAccount": "Pas encore de compte ?",
-    "alreadyAccount": "Déjà un compte ?",
-    "signIn": "Se connecter",
-    "signUp": "S'inscrire",
-    "twoFactor": {
-      "title": "Authentification à Deux Facteurs",
-      "subtitle": "Entrez le code à 6 chiffres de votre application d'authentification",
-      "code": "Code d'authentification",
-      "verify": "Vérifier",
-      "setup": "Configurer 2FA",
-      "disable": "Désactiver 2FA",
-      "enabled": "2FA Activé",
-      "disabled": "2FA Désactivé",
-      "scanQR": "Scannez ce QR code avec votre application d'authentification",
-      "enterCode": "Entrez le code de vérification affiché dans votre application",
-      "backupAdvice": "Sauvegardez vos codes de récupération dans un endroit sûr"
+    "nav": {
+        "dashboard": "Tableau de bord",
+        "courses": "Cours",
+        "myCourses": "Mes Cours",
+        "assignments": "Devoirs",
+        "grades": "Notes",
+        "attendance": "Présence",
+        "messages": "Messages",
+        "profile": "Profil",
+        "createCourse": "Créer un Cours",
+        "uploadDocuments": "Télécharger des Documents",
+        "userManagement": "Gestion des Utilisateurs",
+        "instructorVerification": "Vérification des Instructeurs"
+    },
+    "auth": {
+        "login": "Se Connecter",
+        "logout": "Se Déconnecter",
+        "register": "Créer un Compte",
+        "email": "Adresse Email",
+        "password": "Mot de passe",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "role": "Rôle",
+        "student": "Étudiant",
+        "instructor": "Instructeur",
+        "forgotPassword": "Mot de passe oublié ?",
+        "noAccount": "Pas encore de compte ?",
+        "alreadyAccount": "Déjà un compte ?",
+        "signIn": "Se connecter",
+        "signUp": "S'inscrire",
+        "twoFactor": {
+            "title": "Authentification à Deux Facteurs",
+            "subtitle": "Entrez le code à 6 chiffres de votre application d'authentification",
+            "code": "Code d'authentification",
+            "verify": "Vérifier",
+            "setup": "Configurer 2FA",
+            "disable": "Désactiver 2FA",
+            "enabled": "2FA Activé",
+            "disabled": "2FA Désactivé",
+            "scanQR": "Scannez ce QR code avec votre application d'authentification",
+            "enterCode": "Entrez le code de vérification affiché dans votre application",
+            "backupAdvice": "Sauvegardez vos codes de récupération dans un endroit sûr"
+        }
+    },
+    "courses": {
+        "title": "Cours",
+        "create": "Créer un Cours",
+        "enroll": "S'inscrire",
+        "enrolled": "Inscrit",
+        "unenroll": "Se désinscrire",
+        "viewDetails": "Voir Détails",
+        "materials": "Matériaux",
+        "noCoursesFound": "Aucun cours trouvé",
+        "search": "Rechercher des cours...",
+        "filter": "Filtrer",
+        "capacity": "Capacité",
+        "duration": "Durée",
+        "credits": "Crédits",
+        "instructor": "Instructeur",
+        "startDate": "Date de début",
+        "endDate": "Date de fin"
+    },
+    "assignments": {
+        "title": "Devoirs",
+        "create": "Créer un Devoir",
+        "submit": "Soumettre",
+        "submitted": "Soumis",
+        "dueDate": "Date limite",
+        "grade": "Note",
+        "feedback": "Commentaire",
+        "noAssignments": "Aucun devoir trouvé",
+        "submissionDeadline": "Date limite de soumission"
+    },
+    "grades": {
+        "title": "Notes",
+        "course": "Cours",
+        "grade": "Note",
+        "gpa": "Moyenne",
+        "noGrades": "Pas encore de notes"
+    },
+    "attendance": {
+        "title": "Présence",
+        "present": "Présent",
+        "absent": "Absent",
+        "late": "En retard",
+        "date": "Date",
+        "status": "Statut"
+    },
+    "messages": {
+        "title": "Messages",
+        "compose": "Rédiger",
+        "send": "Envoyer",
+        "to": "À",
+        "subject": "Objet",
+        "body": "Message",
+        "noMessages": "Aucun message",
+        "reply": "Répondre"
+    },
+    "profile": {
+        "title": "Profil",
+        "editProfile": "Modifier le profil",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "changePassword": "Changer le mot de passe",
+        "security": "Sécurité",
+        "twoFactorAuth": "Authentification à Deux Facteurs"
+    },
+    "common": {
+        "loading": "Chargement...",
+        "error": "Une erreur s'est produite",
+        "success": "Succès",
+        "cancel": "Annuler",
+        "save": "Enregistrer",
+        "delete": "Supprimer",
+        "edit": "Modifier",
+        "view": "Voir",
+        "back": "Retour",
+        "next": "Suivant",
+        "submit": "Soumettre",
+        "search": "Rechercher",
+        "filter": "Filtrer",
+        "all": "Tous",
+        "active": "Actif",
+        "inactive": "Inactif",
+        "pending": "En attente",
+        "approved": "Approuvé",
+        "rejected": "Rejeté",
+        "required": "Requis",
+        "optional": "Optionnel",
+        "noData": "Aucune donnée disponible",
+        "language": "Langue"
+    },
+    "roles": {
+        "student": "Étudiant",
+        "instructor": "Instructeur",
+        "admin": "Admin"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "markAllRead": "Tout marquer comme lu",
+        "noNotifications": "Aucune notification",
+        "viewAll": "Tout voir"
+    },
+    "home": {
+        "hero": {
+            "title": "Dynamisez Votre Parcours d'Apprentissage",
+            "subtitle": "Une plateforme complète pour les étudiants, instructeurs et institutions.",
+            "cta": "Commencer Gratuitement",
+            "ctaSecondary": "En savoir plus"
+        }
     }
-  },
-  "courses": {
-    "title": "Cours",
-    "create": "Créer un Cours",
-    "enroll": "S'inscrire",
-    "enrolled": "Inscrit",
-    "unenroll": "Se désinscrire",
-    "viewDetails": "Voir Détails",
-    "materials": "Matériaux",
-    "noCoursesFound": "Aucun cours trouvé",
-    "search": "Rechercher des cours...",
-    "filter": "Filtrer",
-    "capacity": "Capacité",
-    "duration": "Durée",
-    "credits": "Crédits",
-    "instructor": "Instructeur",
-    "startDate": "Date de début",
-    "endDate": "Date de fin"
-  },
-  "assignments": {
-    "title": "Devoirs",
-    "create": "Créer un Devoir",
-    "submit": "Soumettre",
-    "submitted": "Soumis",
-    "dueDate": "Date limite",
-    "grade": "Note",
-    "feedback": "Commentaire",
-    "noAssignments": "Aucun devoir trouvé",
-    "submissionDeadline": "Date limite de soumission"
-  },
-  "grades": {
-    "title": "Notes",
-    "course": "Cours",
-    "grade": "Note",
-    "gpa": "Moyenne",
-    "noGrades": "Pas encore de notes"
-  },
-  "attendance": {
-    "title": "Présence",
-    "present": "Présent",
-    "absent": "Absent",
-    "late": "En retard",
-    "date": "Date",
-    "status": "Statut"
-  },
-  "messages": {
-    "title": "Messages",
-    "compose": "Rédiger",
-    "send": "Envoyer",
-    "to": "À",
-    "subject": "Objet",
-    "body": "Message",
-    "noMessages": "Aucun message",
-    "reply": "Répondre"
-  },
-  "profile": {
-    "title": "Profil",
-    "editProfile": "Modifier le profil",
-    "save": "Enregistrer",
-    "cancel": "Annuler",
-    "changePassword": "Changer le mot de passe",
-    "security": "Sécurité",
-    "twoFactorAuth": "Authentification à Deux Facteurs"
-  },
-  "common": {
-    "loading": "Chargement...",
-    "error": "Une erreur s'est produite",
-    "success": "Succès",
-    "cancel": "Annuler",
-    "save": "Enregistrer",
-    "delete": "Supprimer",
-    "edit": "Modifier",
-    "view": "Voir",
-    "back": "Retour",
-    "next": "Suivant",
-    "submit": "Soumettre",
-    "search": "Rechercher",
-    "filter": "Filtrer",
-    "all": "Tous",
-    "active": "Actif",
-    "inactive": "Inactif",
-    "pending": "En attente",
-    "approved": "Approuvé",
-    "rejected": "Rejeté",
-    "required": "Requis",
-    "optional": "Optionnel",
-    "noData": "Aucune donnée disponible",
-    "language": "Langue"
-  },
-  "roles": {
-    "student": "Étudiant",
-    "instructor": "Instructeur",
-    "admin": "Admin"
-  },
-  "notifications": {
-    "title": "Notifications",
-    "markAllRead": "Tout marquer comme lu",
-    "noNotifications": "Aucune notification",
-    "viewAll": "Tout voir"
-  },
-  "home": {
-    "hero": {
-      "title": "Dynamisez Votre Parcours d'Apprentissage",
-      "subtitle": "Une plateforme complète pour les étudiants, instructeurs et institutions.",
-      "cta": "Commencer Gratuitement",
-      "ctaSecondary": "En savoir plus"
-    }
-  }
 }

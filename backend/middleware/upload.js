@@ -1,6 +1,7 @@
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { getR2Storage, isConfigured: r2Configured } = require('../services/cloudinaryService');
 
 // Use /tmp on Vercel (read-only filesystem), local uploads/ in dev
 const UPLOAD_BASE = process.env.NODE_ENV === 'production' ? '/tmp' : 'uploads';
@@ -43,9 +44,9 @@ const documentFilter = (req, file, cb) => {
   }
 };
 
-// Upload middleware for documents
+// Upload middleware for documents (uses R2 when configured, disk otherwise)
 const uploadDocuments = multer({
-  storage: documentStorage,
+  storage: r2Configured() ? getR2Storage('uploads/documents') : documentStorage,
   limits: {
     fileSize: 10 * 1024 * 1024 // 10MB limit
   },

@@ -1,153 +1,153 @@
 {
-  "nav": {
-    "dashboard": "Dashboard",
-    "courses": "Courses",
-    "myCourses": "My Courses",
-    "assignments": "Assignments",
-    "grades": "Grades",
-    "attendance": "Attendance",
-    "messages": "Messages",
-    "profile": "Profile",
-    "createCourse": "Create Course",
-    "uploadDocuments": "Upload Documents",
-    "userManagement": "User Management",
-    "instructorVerification": "Instructor Verification"
-  },
-  "auth": {
-    "login": "Sign In",
-    "logout": "Sign Out",
-    "register": "Create Account",
-    "email": "Email Address",
-    "password": "Password",
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "role": "Role",
-    "student": "Student",
-    "instructor": "Instructor",
-    "forgotPassword": "Forgot your password?",
-    "noAccount": "Don't have an account?",
-    "alreadyAccount": "Already have an account?",
-    "signIn": "Sign in",
-    "signUp": "Sign up",
-    "twoFactor": {
-      "title": "Two-Factor Authentication",
-      "subtitle": "Enter the 6-digit code from your authenticator app",
-      "code": "Authentication Code",
-      "verify": "Verify",
-      "setup": "Set up 2FA",
-      "disable": "Disable 2FA",
-      "enabled": "2FA Enabled",
-      "disabled": "2FA Disabled",
-      "scanQR": "Scan this QR code with your authenticator app",
-      "enterCode": "Enter the verification code shown in your app",
-      "backupAdvice": "Save your backup codes in a safe place"
+    "nav": {
+        "dashboard": "Dashboard",
+        "courses": "Courses",
+        "myCourses": "My Courses",
+        "assignments": "Assignments",
+        "grades": "Grades",
+        "attendance": "Attendance",
+        "messages": "Messages",
+        "profile": "Profile",
+        "createCourse": "Create Course",
+        "uploadDocuments": "Upload Documents",
+        "userManagement": "User Management",
+        "instructorVerification": "Instructor Verification"
+    },
+    "auth": {
+        "login": "Sign In",
+        "logout": "Sign Out",
+        "register": "Create Account",
+        "email": "Email Address",
+        "password": "Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "role": "Role",
+        "student": "Student",
+        "instructor": "Instructor",
+        "forgotPassword": "Forgot your password?",
+        "noAccount": "Don't have an account?",
+        "alreadyAccount": "Already have an account?",
+        "signIn": "Sign in",
+        "signUp": "Sign up",
+        "twoFactor": {
+            "title": "Two-Factor Authentication",
+            "subtitle": "Enter the 6-digit code from your authenticator app",
+            "code": "Authentication Code",
+            "verify": "Verify",
+            "setup": "Set up 2FA",
+            "disable": "Disable 2FA",
+            "enabled": "2FA Enabled",
+            "disabled": "2FA Disabled",
+            "scanQR": "Scan this QR code with your authenticator app",
+            "enterCode": "Enter the verification code shown in your app",
+            "backupAdvice": "Save your backup codes in a safe place"
+        }
+    },
+    "courses": {
+        "title": "Courses",
+        "create": "Create Course",
+        "enroll": "Enroll",
+        "enrolled": "Enrolled",
+        "unenroll": "Unenroll",
+        "viewDetails": "View Details",
+        "materials": "Materials",
+        "noCoursesFound": "No courses found",
+        "search": "Search courses...",
+        "filter": "Filter",
+        "capacity": "Capacity",
+        "duration": "Duration",
+        "credits": "Credits",
+        "instructor": "Instructor",
+        "startDate": "Start Date",
+        "endDate": "End Date"
+    },
+    "assignments": {
+        "title": "Assignments",
+        "create": "Create Assignment",
+        "submit": "Submit",
+        "submitted": "Submitted",
+        "dueDate": "Due Date",
+        "grade": "Grade",
+        "feedback": "Feedback",
+        "noAssignments": "No assignments found",
+        "submissionDeadline": "Submission Deadline"
+    },
+    "grades": {
+        "title": "Grades",
+        "course": "Course",
+        "grade": "Grade",
+        "gpa": "GPA",
+        "noGrades": "No grades yet"
+    },
+    "attendance": {
+        "title": "Attendance",
+        "present": "Present",
+        "absent": "Absent",
+        "late": "Late",
+        "date": "Date",
+        "status": "Status"
+    },
+    "messages": {
+        "title": "Messages",
+        "compose": "Compose",
+        "send": "Send",
+        "to": "To",
+        "subject": "Subject",
+        "body": "Message",
+        "noMessages": "No messages yet",
+        "reply": "Reply"
+    },
+    "profile": {
+        "title": "Profile",
+        "editProfile": "Edit Profile",
+        "save": "Save Changes",
+        "cancel": "Cancel",
+        "changePassword": "Change Password",
+        "security": "Security",
+        "twoFactorAuth": "Two-Factor Authentication"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "view": "View",
+        "back": "Back",
+        "next": "Next",
+        "submit": "Submit",
+        "search": "Search",
+        "filter": "Filter",
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "required": "Required",
+        "optional": "Optional",
+        "noData": "No data available",
+        "language": "Language"
+    },
+    "roles": {
+        "student": "Student",
+        "instructor": "Instructor",
+        "admin": "Admin"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "markAllRead": "Mark all as read",
+        "noNotifications": "No notifications",
+        "viewAll": "View all"
+    },
+    "home": {
+        "hero": {
+            "title": "Empower Your Learning Journey",
+            "subtitle": "A complete platform for students, instructors and institutions.",
+            "cta": "Get Started Free",
+            "ctaSecondary": "Learn More"
+        }
     }
-  },
-  "courses": {
-    "title": "Courses",
-    "create": "Create Course",
-    "enroll": "Enroll",
-    "enrolled": "Enrolled",
-    "unenroll": "Unenroll",
-    "viewDetails": "View Details",
-    "materials": "Materials",
-    "noCoursesFound": "No courses found",
-    "search": "Search courses...",
-    "filter": "Filter",
-    "capacity": "Capacity",
-    "duration": "Duration",
-    "credits": "Credits",
-    "instructor": "Instructor",
-    "startDate": "Start Date",
-    "endDate": "End Date"
-  },
-  "assignments": {
-    "title": "Assignments",
-    "create": "Create Assignment",
-    "submit": "Submit",
-    "submitted": "Submitted",
-    "dueDate": "Due Date",
-    "grade": "Grade",
-    "feedback": "Feedback",
-    "noAssignments": "No assignments found",
-    "submissionDeadline": "Submission Deadline"
-  },
-  "grades": {
-    "title": "Grades",
-    "course": "Course",
-    "grade": "Grade",
-    "gpa": "GPA",
-    "noGrades": "No grades yet"
-  },
-  "attendance": {
-    "title": "Attendance",
-    "present": "Present",
-    "absent": "Absent",
-    "late": "Late",
-    "date": "Date",
-    "status": "Status"
-  },
-  "messages": {
-    "title": "Messages",
-    "compose": "Compose",
-    "send": "Send",
-    "to": "To",
-    "subject": "Subject",
-    "body": "Message",
-    "noMessages": "No messages yet",
-    "reply": "Reply"
-  },
-  "profile": {
-    "title": "Profile",
-    "editProfile": "Edit Profile",
-    "save": "Save Changes",
-    "cancel": "Cancel",
-    "changePassword": "Change Password",
-    "security": "Security",
-    "twoFactorAuth": "Two-Factor Authentication"
-  },
-  "common": {
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "success": "Success",
-    "cancel": "Cancel",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "view": "View",
-    "back": "Back",
-    "next": "Next",
-    "submit": "Submit",
-    "search": "Search",
-    "filter": "Filter",
-    "all": "All",
-    "active": "Active",
-    "inactive": "Inactive",
-    "pending": "Pending",
-    "approved": "Approved",
-    "rejected": "Rejected",
-    "required": "Required",
-    "optional": "Optional",
-    "noData": "No data available",
-    "language": "Language"
-  },
-  "roles": {
-    "student": "Student",
-    "instructor": "Instructor",
-    "admin": "Admin"
-  },
-  "notifications": {
-    "title": "Notifications",
-    "markAllRead": "Mark all as read",
-    "noNotifications": "No notifications",
-    "viewAll": "View all"
-  },
-  "home": {
-    "hero": {
-      "title": "Empower Your Learning Journey",
-      "subtitle": "A complete platform for students, instructors and institutions.",
-      "cta": "Get Started Free",
-      "ctaSecondary": "Learn More"
-    }
-  }
 }

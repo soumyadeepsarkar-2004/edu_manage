@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  Bars3Icon, 
-  BellIcon, 
-  UserCircleIcon 
+import {
+  Bars3Icon,
+  BellIcon,
+  UserCircleIcon
 } from '@heroicons/react/24/outline';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
@@ -48,7 +48,7 @@ const Header = ({ onMenuClick }) => {
   const markAsRead = async (notificationId) => {
     try {
       await axios.put(`/api/notifications/${notificationId}/read`);
-      setNotifications(notifications.map(n => 
+      setNotifications(notifications.map(n =>
         n._id === notificationId ? { ...n, isRead: true } : n
       ));
       setUnreadCount(Math.max(0, unreadCount - 1));
@@ -60,7 +60,7 @@ const Header = ({ onMenuClick }) => {
   const handleNotificationClick = async (notification) => {
     // Mark as read first
     await markAsRead(notification._id);
-    
+
     // Navigate based on notification type and targetUrl/targetId
     switch (notification.type) {
       case 'assignment':
@@ -71,11 +71,11 @@ const Header = ({ onMenuClick }) => {
           navigate('/assignments');
         }
         break;
-      
+
       case 'grade':
         navigate('/grades');
         break;
-      
+
       case 'doc_verified':
       case 'doc_rejected':
         if (notification.targetUrl) {
@@ -84,24 +84,24 @@ const Header = ({ onMenuClick }) => {
           navigate('/upload-documents');
         }
         break;
-      
+
       case 'course_approved':
       case 'course_rejected':
         navigate('/my-courses');
         break;
-      
+
       case 'user_approved':
         navigate('/dashboard');
         break;
-      
+
       case 'enrollment':
         navigate('/my-courses');
         break;
-      
+
       case 'payment':
         navigate('/profile');
         break;
-      
+
       case 'system':
       case 'announcement':
         if (notification.targetUrl) {
@@ -110,7 +110,7 @@ const Header = ({ onMenuClick }) => {
           navigate('/dashboard');
         }
         break;
-      
+
       default:
         // If targetUrl is provided, use it
         if (notification.targetUrl) {
@@ -135,7 +135,7 @@ const Header = ({ onMenuClick }) => {
             >
               <Bars3Icon className="h-6 w-6" />
             </button>
-            
+
             <h1 className="ml-4 text-xl font-semibold text-gray-900">
               Dashboard
             </h1>
@@ -155,7 +155,7 @@ const Header = ({ onMenuClick }) => {
                   </span>
                 )}
               </Menu.Button>
-              
+
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
@@ -179,7 +179,7 @@ const Header = ({ onMenuClick }) => {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="max-h-96 overflow-y-auto">
                     {notifications.length === 0 ? (
                       <div className="p-4 text-center text-gray-500">
@@ -188,7 +188,7 @@ const Header = ({ onMenuClick }) => {
                     ) : (
                       notifications.slice(0, 5).map((notification) => (
                         <Menu.Item key={notification._id}>
-                          <div 
+                          <div
                             className={`p-4 hover:bg-gray-50 cursor-pointer ${!notification.isRead ? 'bg-blue-50' : ''}`}
                             onClick={() => handleNotificationClick(notification)}
                           >
@@ -218,7 +218,7 @@ const Header = ({ onMenuClick }) => {
                   {user?.firstName} {user?.lastName}
                 </span>
               </Menu.Button>
-              
+
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
@@ -234,9 +234,8 @@ const Header = ({ onMenuClick }) => {
                       {({ active }) => (
                         <Link
                           to="/profile"
-                          className={`${
-                            active ? 'bg-gray-100' : ''
-                          } block px-4 py-2 text-sm text-gray-700`}
+                          className={`${active ? 'bg-gray-100' : ''
+                            } block px-4 py-2 text-sm text-gray-700`}
                         >
                           Your Profile
                         </Link>
@@ -246,9 +245,8 @@ const Header = ({ onMenuClick }) => {
                       {({ active }) => (
                         <Link
                           to="/settings/2fa"
-                          className={`${
-                            active ? 'bg-gray-100' : ''
-                          } block px-4 py-2 text-sm text-gray-700`}
+                          className={`${active ? 'bg-gray-100' : ''
+                            } block px-4 py-2 text-sm text-gray-700`}
                         >
                           Security (2FA)
                         </Link>
@@ -258,9 +256,8 @@ const Header = ({ onMenuClick }) => {
                       {({ active }) => (
                         <button
                           onClick={logout}
-                          className={`${
-                            active ? 'bg-gray-100' : ''
-                          } block w-full text-left px-4 py-2 text-sm text-gray-700`}
+                          className={`${active ? 'bg-gray-100' : ''
+                            } block w-full text-left px-4 py-2 text-sm text-gray-700`}
                         >
                           Sign out
                         </button>

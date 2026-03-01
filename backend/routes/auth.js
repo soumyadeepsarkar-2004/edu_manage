@@ -28,9 +28,9 @@ router.post('/register', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        message: 'Validation errors', 
-        errors: errors.array() 
+      return res.status(400).json({
+        message: 'Validation errors',
+        errors: errors.array()
       });
     }
 
@@ -97,9 +97,9 @@ router.post('/register', [
     const token = generateToken(user._id);
 
     // Send welcome email (non-blocking)
-    sendWelcomeEmail({ email, firstName, role }).catch(() => {});
+    sendWelcomeEmail({ email, firstName, role }).catch(() => { });
 
-    const message = role === 'instructor' 
+    const message = role === 'instructor'
       ? 'Registration successful! Please upload your documents for verification.'
       : 'Registration successful!'
 
@@ -126,9 +126,9 @@ router.post('/login', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        message: 'Validation errors', 
-        errors: errors.array() 
+      return res.status(400).json({
+        message: 'Validation errors',
+        errors: errors.array()
       });
     }
 
@@ -203,15 +203,15 @@ router.put('/profile', auth, [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        message: 'Validation errors', 
-        errors: errors.array() 
+      return res.status(400).json({
+        message: 'Validation errors',
+        errors: errors.array()
       });
     }
 
     const allowedUpdates = ['firstName', 'lastName', 'phone', 'dateOfBirth', 'address'];
     const updates = {};
-    
+
     Object.keys(req.body).forEach(key => {
       if (allowedUpdates.includes(key)) {
         updates[key] = req.body[key];
@@ -244,9 +244,9 @@ router.put('/change-password', auth, [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        message: 'Validation errors', 
-        errors: errors.array() 
+      return res.status(400).json({
+        message: 'Validation errors',
+        errors: errors.array()
       });
     }
 

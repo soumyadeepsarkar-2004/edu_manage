@@ -22,9 +22,9 @@ router.get('/student/:studentId', auth, async (req, res) => {
     const grades = await Grade.find({
       student: req.params.studentId
     })
-    .populate('course', 'title courseCode credits')
-    .populate('instructor', 'firstName lastName')
-    .sort({ updatedAt: -1 });
+      .populate('course', 'title courseCode credits')
+      .populate('instructor', 'firstName lastName')
+      .sort({ updatedAt: -1 });
 
     res.json(grades);
   } catch (error) {
@@ -41,9 +41,9 @@ router.get('/course/:courseId', [auth, authorize('instructor', 'admin')], async 
     const grades = await Grade.find({
       course: req.params.courseId
     })
-    .populate('student', 'firstName lastName email')
-    .populate('course', 'title courseCode')
-    .sort({ 'student.lastName': 1 });
+      .populate('student', 'firstName lastName email')
+      .populate('course', 'title courseCode')
+      .sort({ 'student.lastName': 1 });
 
     res.json(grades);
   } catch (error) {
@@ -66,9 +66,9 @@ router.post('/', [
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ 
-        message: 'Validation errors', 
-        errors: errors.array() 
+      return res.status(400).json({
+        message: 'Validation errors',
+        errors: errors.array()
       });
     }
 
@@ -108,7 +108,7 @@ router.post('/', [
     // Create notification for grade update/creation
     try {
       const notificationTitle = isNewGrade ? 'New Grade Posted' : 'Grade Updated';
-      const notificationMessage = isNewGrade 
+      const notificationMessage = isNewGrade
         ? `Your grade for ${grade.course.title} has been posted: ${percentage}%`
         : `Your grade for ${grade.course.title} has been updated to: ${percentage}%`;
 
@@ -129,7 +129,7 @@ router.post('/', [
           firstName: student.firstName,
           courseTitle: grade.course.title,
           grade: `${percentage}%`,
-        }).catch(() => {});
+        }).catch(() => { });
       }
     } catch (notifError) {
       console.error('Error creating grade notification:', notifError);
@@ -152,7 +152,7 @@ router.post('/', [
 router.put('/:id/finalize', [auth, authorize('instructor', 'admin')], async (req, res) => {
   try {
     const grade = await Grade.findById(req.params.id);
-    
+
     if (!grade) {
       return res.status(404).json({ message: 'Grade not found' });
     }
@@ -197,7 +197,7 @@ router.put('/:id/finalize', [auth, authorize('instructor', 'admin')], async (req
 router.put('/:id/verify', [auth, authorize('admin')], async (req, res) => {
   try {
     const grade = await Grade.findById(req.params.id);
-    
+
     if (!grade) {
       return res.status(404).json({ message: 'Grade not found' });
     }

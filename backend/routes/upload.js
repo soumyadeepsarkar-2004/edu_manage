@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { auth } = require('../middleware/auth');
+const { getR2Storage, isConfigured: r2Configured } = require('../services/cloudinaryService');
 
 const router = express.Router();
 
@@ -82,9 +83,9 @@ const materialFilter = (req, file, cb) => {
     cb(new Error('File type not supported. Allowed: videos, documents, PDFs, presentations, and images.'));
 };
 
-// Upload middleware for course materials
+// Upload middleware for course materials (R2 when configured, disk otherwise)
 const uploadCourseMaterial = multer({
-    storage: materialStorage,
+    storage: r2Configured() ? getR2Storage('uploads/course-materials') : materialStorage,
     limits: {
         fileSize: 100 * 1024 * 1024 // 100MB limit for videos and documents
     },
@@ -111,15 +112,16 @@ router.post('/', auth, (req, res) => {
 
         // Return file information
         const baseUrl = `${req.protocol}://${req.get('host')}`;
-        const filePath = `${baseUrl}/${req.file.path.replace(/\\/g, '/')}`;
+        const localFilePath = req.file.path ? `${baseUrl}/${req.file.path.replace(/\\/g, '/')}` : null;
+        const fileUrl = req.file.location || localFilePath; // file.location set by multer-s3 (R2)
 
         res.json({
             message: 'File uploaded successfully',
-            filename: req.file.filename,
+            filename: req.file.filename || req.file.key,
             originalName: req.file.originalname,
-            url: filePath, // Use 'url' for consistency with frontend
-            filePath: filePath, // Keep filePath for backward compatibility
-            localPath: req.file.path,
+            url: fileUrl,
+            filePath: fileUrl,
+            localPath: req.file.path || req.file.key,
             size: req.file.size,
             mimetype: req.file.mimetype
         });
@@ -130,7 +132,7 @@ router.post('/', auth, (req, res) => {
 // @desc    Upload multiple course material files
 // @access  Private
 const uploadMultiple = multer({
-    storage: materialStorage,
+    storage: r2Configured() ? getR2Storage('uploads/course-materials') : materialStorage,
     limits: {
         fileSize: 100 * 1024 * 1024, // 100MB per file
         files: 5 // Max 5 files
@@ -155,14 +157,18 @@ router.post('/multiple', auth, (req, res) => {
 
         // Return information for all uploaded files
         const baseUrl = `${req.protocol}://${req.get('host')}`;
-        const uploadedFiles = req.files.map(file => ({
-            filename: file.filename,
-            originalName: file.originalname,
-            filePath: `${baseUrl}/${file.path.replace(/\\/g, '/')}`,
-            localPath: file.path,
-            size: file.size,
-            mimetype: file.mimetype
-        }));
+        const uploadedFiles = req.files.map(file => {
+            const localFilePath = file.path ? `${baseUrl}/${file.path.replace(/\\/g, '/')}` : null;
+            const fileUrl = file.location || localFilePath; // file.location set by multer-s3 (R2)
+            return {
+                filename: file.filename || file.key,
+                originalName: file.originalname,
+                filePath: fileUrl,
+                localPath: file.path || file.key,
+                size: file.size,
+                mimetype: file.mimetype
+            };
+        });
 
         res.json({
             message: 'Files uploaded successfully',

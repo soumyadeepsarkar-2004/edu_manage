@@ -28,10 +28,12 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - `sendGradeNotification` on grade creation / update
   - `sendPasswordResetEmail` helper ready for password reset flow
   - `sendInstructorApprovedEmail` when admin approves an instructor
-- **Cloudinary persistent file storage** — `backend/services/cloudinaryService.js`
-  - Zero-config fallback: uses local `/tmp` (Vercel) or `uploads/` when Cloudinary env vars are absent
-  - `getCloudinaryStorage()` — drop-in Multer storage engine via `multer-storage-cloudinary`
-  - `uploadBuffer()` + `deleteFile()` utilities for programmatic use
+- **Cloudflare R2 persistent file storage** — `backend/services/cloudinaryService.js`
+  - Free forever: 10 GB storage, 1M writes/month, 10M reads/month, zero egress fees
+  - S3-compatible via `@aws-sdk/client-s3` + `@aws-sdk/lib-storage` + `multer-s3`
+  - Zero-config fallback: uses local `/tmp` (Vercel) or `uploads/` when R2 env vars are absent
+  - `getR2Storage()` — drop-in Multer storage engine for R2
+  - `uploadBuffer()` + `deleteFile()` + `getPublicUrl()` utilities for programmatic use
 - **Internationalisation (i18n)** — English, Spanish (Español), French (Français)
   - `frontend/src/i18n.js` — i18next + react-i18next + browser language detector
   - `frontend/src/locales/{en,es,fr}/translation.json` — full UI string coverage

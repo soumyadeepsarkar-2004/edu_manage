@@ -90,6 +90,26 @@ Email sending is used for notifications and password resets. If not configured, 
 | `MAX_FILE_SIZE` | No | `10485760` | Maximum file upload size in bytes. Default is 10 MB. |
 | `UPLOAD_PATH` | No | `./uploads` | Directory for file storage in development. **Note:** On Vercel, files are written to `/tmp` automatically regardless of this value. |
 
+### Cloudflare R2 Storage (Recommended — Free)
+
+EduManage uses **Cloudflare R2** for persistent file storage in production. R2 is free forever up to 10 GB and has zero egress fees.
+
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `R2_ACCOUNT_ID` | No* | — | Your Cloudflare account ID (found in the sidebar of dash.cloudflare.com). |
+| `R2_ACCESS_KEY_ID` | No* | — | R2 API token Access Key ID. |
+| `R2_SECRET_ACCESS_KEY` | No* | — | R2 API token Secret Access Key. |
+| `R2_BUCKET_NAME` | No* | — | Name of your R2 bucket. |
+| `R2_PUBLIC_URL` | No | — | Public bucket URL, e.g. `https://pub-xxx.r2.dev`. Needed for public file links. |
+
+> \* All four `R2_*` vars must be set together. When absent the app falls back to local disk storage (`/tmp` on Vercel, `uploads/` in dev) — files will be ephemeral on Vercel.
+
+**Quick setup (5 minutes):**
+1. Go to [dash.cloudflare.com](https://dash.cloudflare.com) → **R2** → **Create bucket**
+2. **R2 → Manage R2 API Tokens** → Create token with *Object Read & Write*
+3. Copy **Account ID**, **Access Key ID**, **Secret Access Key** into your `.env`
+4. In your bucket → **Settings → Public access** → Enable (for public URLs)
+
 ### CORS
 
 | Variable | Required | Default | Description |

@@ -228,7 +228,7 @@ recipient (ref: User), type, message, relatedId, read, createdAt
 | Development | Local disk | `backend/uploads/{course-materials,documents,videos,profiles}/` |
 | Production (Vercel) | `/tmp` (ephemeral) | `/tmp/{course-materials,documents,videos,profiles}/` |
 
-> **Important:** Vercel's filesystem is read-only except for `/tmp`, which is ephemeral (wiped between cold starts). For persistent file storage in production, integrate a cloud storage service such as **AWS S3**, **Cloudinary**, or **Supabase Storage**.
+> **Important:** Vercel's filesystem is read-only except for `/tmp`, which is ephemeral (wiped between cold starts). For persistent file storage in production, configure **Cloudflare R2** — set the `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, and `R2_BUCKET_NAME` env vars. See [docs/ENVIRONMENT.md](./ENVIRONMENT.md) for setup details.
 
 ---
 

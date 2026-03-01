@@ -1,102 +1,118 @@
 /**
- * Cloudinary upload service.
+ * Cloudflare R2 Storage Service  (free S3-compatible object storage)
  *
- * Usage:
- *   Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET in backend/.env
- *   to enable cloud storage.  If the vars are absent the service is a no-op and
- *   Multer falls back to the local / /tmp disk strategy.
+ * Free tier — forever:
+ *   10 GB storage · 1M writes/month · 10M reads/month · Zero egress fees
+ *
+ * Required env vars (backend/.env + Vercel project env):
+ *   R2_ACCOUNT_ID        — Cloudflare account ID (dashboard sidebar)
+ *   R2_ACCESS_KEY_ID     — R2 API token Access Key ID
+ *   R2_SECRET_ACCESS_KEY — R2 API token Secret Access Key
+ *   R2_BUCKET_NAME       — Name of your R2 bucket
+ *   R2_PUBLIC_URL        — Public bucket URL e.g. https://pub-xxx.r2.dev (optional)
+ *
+ * Setup (5 minutes):
+ *   1. https://dash.cloudflare.com → R2 → Create bucket
+ *   2. R2 → Manage R2 API Tokens → Create token (Object Read & Write)
+ *   3. Copy Account ID, Access Key ID, Secret Access Key into .env
+ *   4. In your bucket → Settings → Public access → Enable (for public URLs)
+ *
+ * Falls back to disk storage (/tmp on Vercel, uploads/ in dev) when vars are absent.
  */
 
-let cloudinary = null;
+const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+const { Upload } = require('@aws-sdk/lib-storage');
+const path = require('path');
 
-const isConfigured = () => {
-  return !!(
-    process.env.CLOUDINARY_CLOUD_NAME &&
-    process.env.CLOUDINARY_API_KEY &&
-    process.env.CLOUDINARY_API_SECRET
-  );
-};
+let _client = null;
 
-const getCloudinary = () => {
-  if (!isConfigured()) return null;
-
-  if (!cloudinary) {
-    try {
-      const { v2 } = require('cloudinary');
-      v2.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET,
-        secure: true,
-      });
-      cloudinary = v2;
-    } catch (err) {
-      console.warn('[Cloudinary] Package not installed:', err.message);
-      return null;
-    }
-  }
-  return cloudinary;
-};
-
-/**
- * Upload a file buffer to Cloudinary.
- * @param {Buffer} buffer    - File data
- * @param {string} folder    - Cloudinary folder e.g. 'edu_manage/materials'
- * @param {object} options   - Additional cloudinary upload options
- * @returns {{ url: string, publicId: string } | null}
- */
-const uploadBuffer = async (buffer, folder = 'edu_manage', options = {}) => {
-  const cld = getCloudinary();
-  if (!cld) return null;
-
-  return new Promise((resolve, reject) => {
-    const stream = cld.uploader.upload_stream(
-      { folder, resource_type: 'auto', ...options },
-      (error, result) => {
-        if (error) return reject(error);
-        resolve({ url: result.secure_url, publicId: result.public_id });
-      }
+const isConfigured = () =>
+    !!(
+        process.env.R2_ACCOUNT_ID &&
+        process.env.R2_ACCESS_KEY_ID &&
+        process.env.R2_SECRET_ACCESS_KEY &&
+        process.env.R2_BUCKET_NAME
     );
-    stream.end(buffer);
-  });
-};
 
-/**
- * Delete a file from Cloudinary by public_id.
- */
-const deleteFile = async (publicId, resourceType = 'auto') => {
-  const cld = getCloudinary();
-  if (!cld) return;
-  try {
-    await cld.uploader.destroy(publicId, { resource_type: resourceType });
-  } catch (err) {
-    console.error('[Cloudinary] Delete failed:', err.message);
-  }
-};
-
-/**
- * Build a Multer storage engine that uploads to Cloudinary.
- * Requires the `multer-storage-cloudinary` package to be installed.
- * Falls back to null if not available, triggering disk storage fallback.
- */
-const getCloudinaryStorage = (folder = 'edu_manage') => {
-  if (!isConfigured()) return null;
-  try {
-    const { CloudinaryStorage } = require('multer-storage-cloudinary');
-    const cld = getCloudinary();
-    if (!cld) return null;
-    return new CloudinaryStorage({
-      cloudinary: cld,
-      params: {
-        folder,
-        resource_type: 'auto',
-        allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'mp4', 'mov', 'avi', 'webm', 'txt'],
-      },
+const getClient = () => {
+    if (!isConfigured()) return null;
+    if (_client) return _client;
+    _client = new S3Client({
+        region: 'auto',
+        endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+        credentials: {
+            accessKeyId: process.env.R2_ACCESS_KEY_ID,
+            secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+        },
     });
-  } catch (err) {
-    console.warn('[Cloudinary] multer-storage-cloudinary not installed — using disk storage.');
-    return null;
-  }
+    return _client;
 };
 
-module.exports = { isConfigured, uploadBuffer, deleteFile, getCloudinaryStorage };
+const getBucketName = () => process.env.R2_BUCKET_NAME || '';
+
+/** Build a public URL for a stored object key. Returns null if R2_PUBLIC_URL is not set. */
+const getPublicUrl = (key) => {
+    const base = process.env.R2_PUBLIC_URL;
+    if (!base || !key) return null;
+    return `${base.replace(/\/$/, '')}/${key}`;
+};
+
+/**
+ * Upload a Buffer or Readable stream to R2.
+ * @param {Buffer|Readable} body
+ * @param {string} key          e.g. 'uploads/materials/1234-file.pdf'
+ * @param {string} contentType
+ * @returns {{ url: string|null, key: string } | null}  null when R2 not configured
+ */
+const uploadBuffer = async (body, key, contentType = 'application/octet-stream') => {
+    const client = getClient();
+    if (!client) return null;
+    const upload = new Upload({
+        client,
+        params: { Bucket: getBucketName(), Key: key, Body: body, ContentType: contentType },
+    });
+    await upload.done();
+    return { url: getPublicUrl(key), key };
+};
+
+/** Delete an object from R2 by its key. */
+const deleteFile = async (key) => {
+    const client = getClient();
+    if (!client || !key) return;
+    try {
+        await client.send(new DeleteObjectCommand({ Bucket: getBucketName(), Key: key }));
+    } catch (err) {
+        console.error('[R2] Delete failed:', err.message);
+    }
+};
+
+/**
+ * Returns a multer-s3 storage engine pointed at R2, or null to fall back to disk.
+ * @param {string} keyPrefix  e.g. 'uploads/materials'
+ */
+const getR2Storage = (keyPrefix = 'uploads') => {
+    if (!isConfigured()) return null;
+    try {
+        const multerS3 = require('multer-s3');
+        const client = getClient();
+        if (!client) return null;
+        return multerS3({
+            s3: client,
+            bucket: getBucketName(),
+            contentType: multerS3.AUTO_CONTENT_TYPE,
+            key: (req, file, cb) => {
+                const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+                const ext = path.extname(file.originalname);
+                cb(null, `${keyPrefix}/${uniqueSuffix}${ext}`);
+            },
+        });
+    } catch (err) {
+        console.warn('[R2] multer-s3 unavailable — falling back to disk storage:', err.message);
+        return null;
+    }
+};
+
+// Backward-compatible alias for any code that still imports getCloudinaryStorage
+const getCloudinaryStorage = getR2Storage;
+
+module.exports = { isConfigured, uploadBuffer, deleteFile, getPublicUrl, getR2Storage, getCloudinaryStorage };
