@@ -5,6 +5,7 @@ const Course = require('../models/Course');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const { auth, authorize, checkApproval } = require('../middleware/auth');
+const { sendGradeNotification } = require('../services/emailService');
 
 const router = express.Router();
 
@@ -119,6 +120,17 @@ router.post('/', [
         targetId: grade._id,
         targetUrl: `/grades`
       });
+
+      // Send email notification (non-blocking)
+      const student = await User.findById(studentId).select('email firstName');
+      if (student) {
+        sendGradeNotification({
+          email: student.email,
+          firstName: student.firstName,
+          courseTitle: grade.course.title,
+          grade: `${percentage}%`,
+        }).catch(() => {});
+      }
     } catch (notifError) {
       console.error('Error creating grade notification:', notifError);
       // Don't fail the grade creation if notification fails

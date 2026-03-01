@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const { auth, authorize } = require('../middleware/auth');
 const { uploadDocuments } = require('../middleware/upload');
+const { sendWelcomeEmail, sendInstructorApprovedEmail } = require('../services/emailService');
 
 const router = express.Router();
 
@@ -95,6 +96,9 @@ router.post('/register', [
     // Generate token
     const token = generateToken(user._id);
 
+    // Send welcome email (non-blocking)
+    sendWelcomeEmail({ email, firstName, role }).catch(() => {});
+
     const message = role === 'instructor' 
       ? 'Registration successful! Please upload your documents for verification.'
       : 'Registration successful!'
@@ -138,18 +142,28 @@ router.post('/login', [
 
     // Check if account is active
     if (!user.isActive) {
-      return res.status(400).json({ message: 'Account is deactivated' });
+      return res.status(401).json({ message: 'Account is deactivated' });
     }
 
     // Verify password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     // Update last login
     user.lastLogin = new Date();
     await user.save();
+
+    // If 2FA is enabled, issue a short-lived pending token instead of a full session
+    if (user.twoFactorEnabled) {
+      const tempToken = jwt.sign(
+        { userId: user._id, type: '2fa_pending' },
+        process.env.JWT_SECRET,
+        { expiresIn: '5m' }
+      );
+      return res.json({ requiresTwoFactor: true, tempToken });
+    }
 
     // Generate token
     const token = generateToken(user._id);

@@ -9,13 +9,51 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-### Planned
-- Automated email notifications (nodemailer fully wired)
-- Unit + integration test suite (Jest / Supertest / React Testing Library)
-- AWS S3 / Cloudinary persistent file storage
-- Two-factor authentication
-- CI/CD pipeline with GitHub Actions
-- Internationalisation (i18n)
+---
+
+## [1.2.0] — 2026-03-02
+
+### Added
+- **Two-factor authentication (2FA)** — TOTP-based via `speakeasy` + `qrcode`
+  - `POST /api/auth/2fa/setup` — generate QR code and secret
+  - `POST /api/auth/2fa/enable` — verify TOTP and activate 2FA
+  - `POST /api/auth/2fa/verify` — complete login when 2FA is enabled (returns temp token flow)
+  - `DELETE /api/auth/2fa/disable` — disable 2FA (requires current TOTP)
+  - `GET /api/auth/2fa/status` — query 2FA state for current user
+  - Frontend: `TwoFactorSetup.js`, `TwoFactorVerify.js`, `/settings/2fa` and `/2fa/verify` routes
+  - Login flow updated — returns `{ requiresTwoFactor: true, tempToken }` when 2FA is active
+- **Automated email notifications** — `backend/services/emailService.js`
+  - `sendWelcomeEmail` on registration (student + instructor)
+  - `sendEnrollmentConfirmation` on course enrollment
+  - `sendGradeNotification` on grade creation / update
+  - `sendPasswordResetEmail` helper ready for password reset flow
+  - `sendInstructorApprovedEmail` when admin approves an instructor
+- **Cloudinary persistent file storage** — `backend/services/cloudinaryService.js`
+  - Zero-config fallback: uses local `/tmp` (Vercel) or `uploads/` when Cloudinary env vars are absent
+  - `getCloudinaryStorage()` — drop-in Multer storage engine via `multer-storage-cloudinary`
+  - `uploadBuffer()` + `deleteFile()` utilities for programmatic use
+- **Internationalisation (i18n)** — English, Spanish (Español), French (Français)
+  - `frontend/src/i18n.js` — i18next + react-i18next + browser language detector
+  - `frontend/src/locales/{en,es,fr}/translation.json` — full UI string coverage
+  - `LanguageSwitcher` component in the app header
+- **GitHub Actions CI/CD**
+  - `.github/workflows/ci.yml` — runs backend tests + frontend build on every push/PR
+  - `.github/workflows/deploy.yml` — auto-deploys backend then frontend to Vercel on `main` push
+- **Unit + integration test suite** — Jest + Supertest + mongodb-memory-server (in-memory DB)
+  - `backend/tests/auth.test.js` — register, login, /me endpoint tests
+  - `backend/tests/courses.test.js` — RBAC course access tests
+  - `backend/tests/setup.js` — global test setup with in-memory MongoDB lifecycle hooks
+  - `backend/jest.config.js` — Jest config with coverage reporting
+  - `npm test` and `npm run test:coverage` scripts added to `backend/package.json`
+- **User model 2FA fields** — `twoFactorEnabled`, `twoFactorSecret` (excluded from default selects)
+- **`/settings/2fa` frontend route** — accessible from user menu under "Security (2FA)"
+- **Mobile-responsive header** — compressed icon/label spacing on small screens, language switcher responsive
+
+### Changed
+- Login route returns HTTP 401 (was 400) for invalid credentials — better security semantics
+- Header user menu now includes "Security (2FA)" link before Sign out
+- README Live Demo badge updated to link to GitHub repository
+- All roadmap items marked complete in README
 
 ---
 
@@ -74,6 +112,7 @@ Versions follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Backend** — Express.js API with express-validator, bcryptjs, jsonwebtoken, socket.io
 - **Root dev script** — `concurrently` to run frontend + backend in one command
 
-[Unreleased]: https://github.com/tumansutradhar/edu-manage/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/tumansutradhar/edu-manage/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/tumansutradhar/edu-manage/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/tumansutradhar/edu-manage/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/tumansutradhar/edu-manage/releases/tag/v1.0.0

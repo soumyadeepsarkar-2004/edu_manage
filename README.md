@@ -4,7 +4,7 @@
 <p><strong>A complete, production-ready Course Management System built with the MERN stack.</strong></p>
 
 <p>
-  <a href="https://frontend-two-coral-74.vercel.app"><img alt="Live Demo" src="https://img.shields.io/badge/Live%20Demo-Visit-blue?style=for-the-badge&logo=vercel"/></a>
+  <a href="https://github.com/tumansutradhar/edu-manage"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github"/></a>
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/>
   <img alt="Node" src="https://img.shields.io/badge/Node.js-%3E%3D20-brightgreen?style=for-the-badge&logo=node.js"/>
   <img alt="React" src="https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react"/>
@@ -302,13 +302,13 @@ git push origin feature/my-feature
 - [x] Attendance tracking
 - [x] Internal messaging
 - [x] Vercel production deployment
-- [ ] Automated email notifications (nodemailer fully wired)
-- [ ] Unit + integration test suite (Jest / Supertest)
-- [ ] AWS S3 / Cloudinary for persistent file storage
-- [ ] Two-factor authentication
-- [ ] Mobile-responsive improvements
-- [ ] Internationalisation (i18n)
-- [ ] CI/CD pipeline (GitHub Actions)
+- [x] Automated email notifications (nodemailer — welcome, enrollment, grades, instructor approval)
+- [x] Unit + integration test suite (Jest / Supertest + mongodb-memory-server)
+- [x] AWS S3 / Cloudinary for persistent file storage (cloudinaryService.js, multer-storage-cloudinary)
+- [x] Two-factor authentication (TOTP via speakeasy — setup, enable, verify, disable)
+- [x] Mobile-responsive improvements (responsive header, sidebar, LanguageSwitcher)
+- [x] Internationalisation (i18n) — English, Spanish, French via i18next + react-i18next
+- [x] CI/CD pipeline (GitHub Actions — CI on push/PR, auto-deploy to Vercel on main)
 
 ---
 

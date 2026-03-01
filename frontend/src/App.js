@@ -32,6 +32,8 @@ import Profile from './components/Profile/Profile';
 import UserManagement from './components/Admin/UserManagement';
 import DocumentUpload from './components/Auth/DocumentUpload';
 import InstructorVerification from './components/Admin/InstructorVerification';
+import TwoFactorVerify from './components/Auth/TwoFactorVerify';
+import TwoFactorSetup from './components/Auth/TwoFactorSetup';
 import HomePage from './components/Home/HomePage';
 
 // Loading Component
@@ -232,6 +234,16 @@ function App() {
               <DocumentUpload />
             </ProtectedRoute>
           } />
+
+          <Route path="/settings/2fa" element={
+            <ProtectedRoute>
+              <Layout>
+                <TwoFactorSetup />
+              </Layout>
+            </ProtectedRoute>
+          } />
+
+          <Route path="/2fa/verify" element={<TwoFactorVerify />} />
 
           <Route path="/admin/instructor-verification" element={
             <ProtectedRoute allowedRoles={['admin']}>

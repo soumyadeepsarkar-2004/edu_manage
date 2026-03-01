@@ -125,6 +125,15 @@ const userSchema = new mongoose.Schema({
   lastLogin: {
     type: Date
   },
+  // Two-factor authentication
+  twoFactorEnabled: {
+    type: Boolean,
+    default: false
+  },
+  twoFactorSecret: {
+    type: String,
+    select: false  // Never returned in queries unless explicitly selected
+  },
   feeStatus: {
     totalFees: {
       type: Number,

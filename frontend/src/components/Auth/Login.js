@@ -27,7 +27,10 @@ const Login = () => {
     
     const result = await login(formData.email, formData.password);
     
-    if (result.success) {
+    if (result.requiresTwoFactor && result.tempToken) {
+      // Redirect to 2FA verification page with the temp token
+      navigate(`/2fa/verify?t=${result.tempToken}`);
+    } else if (result.success) {
       navigate('/dashboard');
     }
     

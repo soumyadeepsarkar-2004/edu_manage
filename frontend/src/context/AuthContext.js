@@ -45,7 +45,12 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await axios.post('/api/auth/login', { email, password });
-      const { token, user } = response.data;
+      const { token, user, requiresTwoFactor, tempToken } = response.data;
+
+      // 2FA challenge — redirect to verification page
+      if (requiresTwoFactor && tempToken) {
+        return { success: true, requiresTwoFactor: true, tempToken };
+      }
 
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -87,6 +92,23 @@ export const AuthProvider = ({ children }) => {
     window.location.href = '/';
   };
 
+  // Complete 2FA login after TOTP verification
+  const completeTwoFactorLogin = async (tempToken, totpCode) => {
+    try {
+      const response = await axios.post('/api/auth/2fa/verify', { tempToken, totpCode });
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(user);
+      toast.success('Login successful!');
+      return { success: true };
+    } catch (error) {
+      const message = error.response?.data?.message || '2FA verification failed';
+      toast.error(message);
+      return { success: false, message };
+    }
+  };
+
   const refreshUser = async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -104,6 +126,7 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    completeTwoFactorLogin,
     refreshUser,
     loading
   };

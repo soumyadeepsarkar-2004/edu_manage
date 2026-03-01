@@ -4,6 +4,7 @@ const Enrollment = require('../models/Enrollment');
 const Course = require('../models/Course');
 const User = require('../models/User');
 const { auth, authorize } = require('../middleware/auth');
+const { sendEnrollmentConfirmation } = require('../services/emailService');
 
 const router = express.Router();
 
@@ -84,6 +85,18 @@ router.post('/', [
       { path: 'student', select: 'firstName lastName email' },
       { path: 'course', select: 'title courseCode instructor' }
     ]);
+
+    // Send confirmation email (non-blocking)
+    try {
+      await sendEnrollmentConfirmation({
+        email: req.user.email,
+        firstName: req.user.firstName,
+        courseTitle: course.title,
+        instructorName: enrollment.course?.instructor
+          ? `${enrollment.course.instructor.firstName} ${enrollment.course.instructor.lastName}`
+          : null,
+      });
+    } catch (_) { /* email errors are non-fatal */ }
 
     res.status(201).json({
       message: 'Enrolled successfully',

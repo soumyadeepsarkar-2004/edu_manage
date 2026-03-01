@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { formatDate } from '../../utils/dateUtils';
+import LanguageSwitcher from '../Common/LanguageSwitcher';
 
 const Header = ({ onMenuClick }) => {
   const { user, logout } = useAuth();
@@ -140,8 +141,11 @@ const Header = ({ onMenuClick }) => {
             </h1>
           </div>
 
-          <div className="flex items-center space-x-4">
-            {/* Notifications */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
+            {/* Notifications */}}
             <Menu as="div" className="relative">
               <Menu.Button className="p-2 text-gray-400 hover:text-gray-500 relative">
                 <BellIcon className="h-6 w-6" />
@@ -235,6 +239,18 @@ const Header = ({ onMenuClick }) => {
                           } block px-4 py-2 text-sm text-gray-700`}
                         >
                           Your Profile
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="/settings/2fa"
+                          className={`${
+                            active ? 'bg-gray-100' : ''
+                          } block px-4 py-2 text-sm text-gray-700`}
+                        >
+                          Security (2FA)
                         </Link>
                       )}
                     </Menu.Item>
