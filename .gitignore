@@ -13,7 +13,8 @@ npm-debug.log*
 Thumbs.db
 
 # IDE
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 .idea/
 
 # Environment variations

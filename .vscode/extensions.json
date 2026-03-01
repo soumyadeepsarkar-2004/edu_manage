@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "mongodb.mongodb-vscode",
+        "humao.rest-client",
+        "christian-kohler.path-intellisense",
+        "christian-kohler.npm-intellisense",
+        "dsznajder.es7-react-js-snippets",
+        "formulahendry.auto-rename-tag",
+        "PKief.material-icon-theme",
+        "streetsidesoftware.code-spell-checker"
+    ]
+}

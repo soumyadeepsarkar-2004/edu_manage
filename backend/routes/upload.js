@@ -6,32 +6,41 @@ const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Ensure upload directories exist
+// Use /tmp on Vercel (read-only filesystem), local uploads/ in dev
+const UPLOAD_BASE = process.env.NODE_ENV === 'production' ? '/tmp' : 'uploads';
+
 const uploadDirs = [
-    'uploads/course-materials',
-    'uploads/documents',
-    'uploads/videos',
-    'uploads/profiles'
+    `${UPLOAD_BASE}/course-materials`,
+    `${UPLOAD_BASE}/documents`,
+    `${UPLOAD_BASE}/videos`,
+    `${UPLOAD_BASE}/profiles`
 ];
 
-uploadDirs.forEach(dir => {
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
-});
+// Ensure upload directories exist (safe for serverless)
+try {
+    uploadDirs.forEach(dir => {
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+    });
+} catch (e) {
+    console.warn('Could not create upload dirs:', e.message);
+}
 
 // Storage configuration for course materials
 const materialStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         const type = req.body.type || 'course-material';
-        let uploadPath = 'uploads/course-materials';
+        let uploadPath = `${UPLOAD_BASE}/course-materials`;
 
         if (type === 'video') {
-            uploadPath = 'uploads/videos';
+            uploadPath = `${UPLOAD_BASE}/videos`;
         } else if (type === 'document' || type === 'pdf' || type === 'note') {
-            uploadPath = 'uploads/documents';
+            uploadPath = `${UPLOAD_BASE}/documents`;
         }
 
+        // Ensure directory exists at request time
+        try { fs.mkdirSync(uploadPath, { recursive: true }); } catch (e) { }
         cb(null, uploadPath);
     },
     filename: function (req, file, cb) {

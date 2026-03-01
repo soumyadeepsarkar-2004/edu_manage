@@ -2,18 +2,27 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure upload directories exist
-const uploadDirs = ['uploads/documents', 'uploads/profiles'];
-uploadDirs.forEach(dir => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-});
+// Use /tmp on Vercel (read-only filesystem), local uploads/ in dev
+const UPLOAD_BASE = process.env.NODE_ENV === 'production' ? '/tmp' : 'uploads';
+
+// Ensure upload directories exist (safe for serverless)
+const uploadDirs = [`${UPLOAD_BASE}/documents`, `${UPLOAD_BASE}/profiles`];
+try {
+  uploadDirs.forEach(dir => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  });
+} catch (e) {
+  console.warn('Could not create upload dirs:', e.message);
+}
 
 // Storage configuration for documents
 const documentStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/documents');
+    const dest = `${UPLOAD_BASE}/documents`;
+    try { fs.mkdirSync(dest, { recursive: true }); } catch (e) { }
+    cb(null, dest);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);

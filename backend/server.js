@@ -7,6 +7,19 @@ const path = require('path');
 // Load environment variables
 dotenv.config();
 
+// ── MongoDB lazy connection (serverless-safe) ─────────────────────────────────
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+  await mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  isConnected = true;
+  console.log('Connected to MongoDB');
+};
+
 // Import routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -24,8 +37,19 @@ const uploadRoutes = require('./routes/upload');
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:3000',
+  /\.vercel\.app$/,
+  /localhost/
+];
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow server-to-server / curl
+    const allowed = allowedOrigins.some((o) =>
+      typeof o === 'string' ? o === origin : o.test(origin)
+    );
+    allowed ? callback(null, true) : callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -33,6 +57,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static file serving for uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// ── DB connection middleware (MUST be before routes) ─────────────────────────
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('MongoDB connection failed:', err.message);
+    res.status(500).json({ message: 'Database connection failed' });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -70,33 +105,29 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => {
-    console.log('Connected to MongoDB');
-    console.log('Database URI:', process.env.MONGODB_URI);
+// ── Export for Vercel serverless ──────────────────────────────────────────────
+module.exports = app;
 
-    // Start server
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-      if (process.env.NODE_ENV === 'development') {
-        console.log('To create admin user, run: npm run create-admin');
-      }
+// ── Local dev: start HTTP server only when run directly ───────────────────────
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('To create admin user, run: npm run create-admin');
+        }
+      });
+    })
+    .catch((err) => {
+      console.error('Startup error:', err);
+      process.exit(1);
     });
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  });
+}
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
+process.on('unhandledRejection', (err) => {
   console.log('Unhandled Promise Rejection:', err.message);
-  // Close server & exit process
-  process.exit(1);
 });
